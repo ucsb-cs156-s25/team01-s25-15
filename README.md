@@ -16,7 +16,7 @@ TODO: Fill in this table with correct information.
 | Table                     | Name         | Github Id |
 |---------------------------|--------------|-----------|
 | UCSBDiningCommonsMenuItem | Lucas H.     | Esomevath |
-| UCSBOrganization          |              |           |
+| UCSBOrganization          | David D.     | davidduena|
 | RecommendationRequest     |              |           |
 | MenuItemReview            |              |           |
 | HelpRequest               |              |           |
