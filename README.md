@@ -19,7 +19,7 @@ TODO: Fill in this table with correct information.
 | UCSBOrganization          | David D.     | davidduena|
 | RecommendationRequest     |              |           |
 | MenuItemReview            |              |           |
-| HelpRequest               |              |           |
+| HelpRequest               | Yue C.       | yuecao365 |
 | Articles                  |              |           |
 
 Remember though, that in spite of these initial  assignments, it is still
