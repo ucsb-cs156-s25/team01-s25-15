@@ -16,10 +16,10 @@ TODO: Fill in this table with correct information.
 | Table                     | Name         | Github Id |
 |---------------------------|--------------|-----------|
 | UCSBDiningCommonsMenuItem | Lucas H.     | Esomevath |
-| UCSBOrganization          | David D.     | davidduena|
+| UCSBOrganization          | Yue C.       | yuecao365 |
 | RecommendationRequest     | Perry T.     |perryjirakit|
 | MenuItemReview            | Tyler W.     | Tyler-W0ng|
-| HelpRequest               | Yue C.       | yuecao365 |
+| HelpRequest               | David D.     | davidduena|
 | Articles                  |              |           |
 
 Remember though, that in spite of these initial  assignments, it is still
