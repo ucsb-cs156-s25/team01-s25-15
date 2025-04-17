@@ -18,7 +18,7 @@ TODO: Fill in this table with correct information.
 | UCSBDiningCommonsMenuItem | Lucas H.     | Esomevath |
 | UCSBOrganization          | David D.     | davidduena|
 | RecommendationRequest     | Perry T.     |perryjirakit|
-| MenuItemReview            |              |           |
+| MenuItemReview            | Tyler W.     | Tyler-W0ng|
 | HelpRequest               | Yue C.       | yuecao365 |
 | Articles                  |              |           |
 
