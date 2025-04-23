@@ -28,7 +28,7 @@
                         "primaryKeyName": "MENUITEMREVIEWS_PK"
                       },
                       "name": "ID",
-                      "type": "VARCHAR(255)"
+                      "type": "BIGINT"
                     }
                   },
                   {
