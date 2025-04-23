@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Entity(name = "MenuItemReviews")
 public class MenuItemReview {
   @Id
-  private String id;
+  private Long id;
   private Long itemId;
   private String reviewerEmail;
   private int stars;

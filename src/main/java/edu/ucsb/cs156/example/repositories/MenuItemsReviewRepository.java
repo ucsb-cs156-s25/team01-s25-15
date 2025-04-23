@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  * The UCSBDiningCommonsRepository is a repository for MenuItemReview entities
  */
 @Repository
-public interface MenuItemsReviewRepository extends CrudRepository<MenuItemReview, String> {
+public interface MenuItemsReviewRepository extends CrudRepository<MenuItemReview, Long> {
  
 }
