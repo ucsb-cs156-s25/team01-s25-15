@@ -11,12 +11,16 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ * This is a JPA entity that represents a UCSBDiningCommonsMenuItem.
+ */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "ucsbdiningcommonsmenuitems")
-public class UCSBDiningCommonsMenuItems {
+@Entity(name = "ucsbdiningcommonsmenuitem")
+public class UCSBDiningCommonsMenuItem {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
