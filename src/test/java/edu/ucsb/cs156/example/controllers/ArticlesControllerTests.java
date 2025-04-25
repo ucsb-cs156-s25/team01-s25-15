@@ -152,7 +152,7 @@ public class ArticlesControllerTests extends ControllerTestCase {
                             .title("bi - test02: Sports")
                             .url("https://dailynexus.com/2025-04-20/sports-opinion-softball-as-a-sport-in-hong-kong/")
                             .explanation("This is the second post added to the test")
-                            .email("binouye@ucsb.edu")
+                            .email("jthampiratwong@ucsb.edu")
                             .dateAdded(ldt2)
                             .build();
 
