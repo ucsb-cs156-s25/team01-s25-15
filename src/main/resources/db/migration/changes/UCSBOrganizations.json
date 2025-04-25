@@ -2,7 +2,7 @@
     "databaseChangeLog": [
       {
         "changeSet": {
-          "id": "UCSBORGANIZATIONS-1",
+          "id": "UCSBOrganization-1",
           "author": "yuecao365",
           "preConditions": [
             {
@@ -12,7 +12,7 @@
               "not": [
                 {
                   "tableExists": {
-                    "tableName": "UCSBORGANIZATIONS"
+                    "tableName": "UCSBORGANIZATION"
                   }
                 }
               ]
@@ -51,7 +51,7 @@
                     }
                   }
                 ],
-                "tableName": "UCSBOrganization"
+                "tableName": "UCSBORGANIZATION"
               }
             }
           ]

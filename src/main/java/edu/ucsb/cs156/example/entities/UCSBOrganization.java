@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "UCSBOrganization")
+@Entity(name = "ucsboganization")
 public class UCSBOrganization {
   @Id
   private String orgCode;
