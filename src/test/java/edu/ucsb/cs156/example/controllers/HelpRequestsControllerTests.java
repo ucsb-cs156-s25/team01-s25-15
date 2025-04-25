@@ -45,28 +45,28 @@ public class HelpRequestsControllerTests extends ControllerTestCase {
        
     @Test
     public void logged_out_users_cannot_get_all() throws Exception {
-            mockMvc.perform(get("/api/HelpRequests/all"))
+            mockMvc.perform(get("/api/helprequests/all"))
                             .andExpect(status().is(403)); // logged out users can't get all
     }
 
     @WithMockUser(roles = { "USER" })
     @Test
     public void logged_in_users_can_get_all() throws Exception {
-            mockMvc.perform(get("/api/HelpRequests/all"))
+            mockMvc.perform(get("/api/helprequests/all"))
                             .andExpect(status().is(200)); // logged
     }
 
 
     @Test
     public void logged_out_users_cannot_post() throws Exception {
-            mockMvc.perform(post("/api/HelpRequests/post"))
+            mockMvc.perform(post("/api/helprequests/post"))
                             .andExpect(status().is(403));
     }
 
     @WithMockUser(roles = { "USER" })
     @Test
     public void logged_in_regular_users_cannot_post() throws Exception {
-            mockMvc.perform(post("/api/HelpRequests/post"))
+            mockMvc.perform(post("/api/helprequests/post"))
                             .andExpect(status().is(403)); // only admins can post
     }
 
@@ -95,7 +95,7 @@ public class HelpRequestsControllerTests extends ControllerTestCase {
             when(helpRequestRepository.findAll()).thenReturn(expectedHelpRequests);
 
             // act
-            MvcResult response = mockMvc.perform(get("/api/HelpRequests/all"))
+            MvcResult response = mockMvc.perform(get("/api/helprequests/all"))
                             .andExpect(status().isOk()).andReturn();
 
             // assert
@@ -127,7 +127,7 @@ public class HelpRequestsControllerTests extends ControllerTestCase {
 
             // act
             MvcResult response = mockMvc.perform(
-                            post("/api/HelpRequests/post?requesterEmail=email&teamId=a&tableOrBreakoutRoom=table&requestTime=2022-01-03T00:00:00&explanation=yes&solved=true")
+                            post("/api/helprequests/post?requesterEmail=email&teamId=a&tableOrBreakoutRoom=table&requestTime=2022-01-03T00:00:00&explanation=yes&solved=true")
                                                 .with(csrf()))
                             .andExpect(status().isOk()).andReturn();
 
@@ -137,6 +137,72 @@ public class HelpRequestsControllerTests extends ControllerTestCase {
             String responseString = response.getResponse().getContentAsString();
             assertEquals(expectedJson, responseString);
     }
+
+
+
+    @Test
+    public void logged_out_users_cannot_get_by_id() throws Exception {
+        mockMvc.perform(get("/api/helprequests?id=7"))
+                        .andExpect(status().is(403)); // logged out users can't get by id
+    }
+
+
+
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void test_that_logged_in_user_can_get_by_id_when_the_id_exists() throws Exception {
+
+        // arrange
+        LocalDateTime ldt = LocalDateTime.parse("2022-01-03T00:00:00");
+
+        HelpRequest helprequest1 = HelpRequest.builder()
+                            .requesterEmail("email")
+                            .teamId("a")
+                            .tableOrBreakoutRoom("table")
+                            .requestTime(ldt)
+                            .explanation("yes")
+                            .solved(true)
+                            .build();
+
+        when(helpRequestRepository.findById(eq(7L))).thenReturn(Optional.of(helprequest1));
+
+        // act
+        MvcResult response = mockMvc.perform(get("/api/helprequests?id=7"))
+                        .andExpect(status().isOk()).andReturn();
+
+        // assert
+
+        verify(helpRequestRepository, times(1)).findById(eq(7L));
+        String expectedJson = mapper.writeValueAsString(helprequest1);
+        String responseString = response.getResponse().getContentAsString();
+        assertEquals(expectedJson, responseString);
+     }
+
+
+        @WithMockUser(roles = { "USER" })
+        @Test
+        public void test_that_logged_in_user_can_get_by_id_when_the_id_does_not_exist() throws Exception {
+
+                // arrange
+
+                when(helpRequestRepository.findById(eq(7L))).thenReturn(Optional.empty());
+
+                // act
+                MvcResult response = mockMvc.perform(get("/api/helprequests?id=7"))
+                                .andExpect(status().isNotFound()).andReturn();
+
+                // assert
+
+                verify(helpRequestRepository, times(1)).findById(eq(7L));
+                Map<String, Object> json = responseToJson(response);
+                assertEquals("EntityNotFoundException", json.get("type"));
+                assertEquals("HelpRequest with id 7 not found", json.get("message"));
+        }
+
+
+
+   
 
     
 }
