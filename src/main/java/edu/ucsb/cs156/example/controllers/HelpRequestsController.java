@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
  * This is a REST controller for HeloRequests
  */
 @Tag(name = "HelpRequests")
-@RequestMapping("/api/HelpRequests")
+@RequestMapping("/api/helprequests")
 @RestController
 @Slf4j
 public class HelpRequestsController extends ApiController {
@@ -91,6 +91,24 @@ public class HelpRequestsController extends ApiController {
         HelpRequest savedHelpRequest = helpRequestRepository.save(helprequest);
 
         return savedHelpRequest;
+    }
+
+
+    /**
+     * Get a single helprequest by id
+     * 
+     * @param id the id of the helprequest
+     * @return a HelpRequest
+     */
+    @Operation(summary= "Get a single helprequest")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public HelpRequest getById(
+            @Parameter(name="id") @RequestParam Long id) {
+        HelpRequest helprequest = helpRequestRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(HelpRequest.class, id));
+
+        return helprequest;
     }
 
 
