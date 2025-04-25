@@ -252,5 +252,84 @@ public class ArticlesControllerTests extends ControllerTestCase {
             verify(articlesRepository, times(1)).findById(15L);
             Map<String, Object> json = responseToJson(response);
             assertEquals("Articles with id 15 not found", json.get("message"));
-    }    
+    }  
+
+    @WithMockUser(roles = { "ADMIN", "USER" })
+    @Test
+    public void admin_can_edit_an_existing_articles() throws Exception {
+            // arrange
+
+            LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
+            LocalDateTime ldt2 = LocalDateTime.parse("2023-01-03T00:00:00");
+
+            Articles articlesOrig = Articles.builder()
+                            .title("Edit test01: Old Article = Zero-waste")
+                            .url("https://dailynexus.com/2025-04-24/zero-waste-festival-encourages-sustainability-with-music-crafts-thrifting/")
+                            .explanation("This is the article to be edited")
+                            .email("binouye@ucsb.edu")
+                            .dateAdded(ldt1)
+                            .build();
+
+            Articles articlesEdited = Articles.builder()
+                            .title("Edit test01: New Article = Shopping Guide")
+                            .url("https://dailynexus.com/2025-04-24/a-smart-girls-guide-to-secondhand-shopping-the-hidden-dog/")
+                            .explanation("This article has been edited")
+                            .email("binouye@ucsb.edu")
+                            .dateAdded(ldt2)
+                            .build();
+
+            String requestBody = mapper.writeValueAsString(articlesEdited);
+
+            when(articlesRepository.findById(eq(67L))).thenReturn(Optional.of(articlesOrig));
+
+            // act
+            MvcResult response = mockMvc.perform(
+                            put("/api/articles?id=67")
+                                            .contentType(MediaType.APPLICATION_JSON)
+                                            .characterEncoding("utf-8")
+                                            .content(requestBody)
+                                            .with(csrf()))
+                            .andExpect(status().isOk()).andReturn();
+
+            // assert
+            verify(articlesRepository, times(1)).findById(67L);
+            verify(articlesRepository, times(1)).save(articlesEdited); // should be saved with correct user
+            String responseString = response.getResponse().getContentAsString();
+            assertEquals(requestBody, responseString);
+    }
+
+    @WithMockUser(roles = { "ADMIN", "USER" })
+    @Test
+    public void admin_cannot_edit_articles_that_does_not_exist() throws Exception {
+            // arrange
+
+            LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
+
+            Articles ucsbEditedArticles = Articles.builder()
+                            .title("Edit test02: Old Article = Trash Pandas")
+                            .url("https://dailynexus.com/2025-04-17/simply-stated-trash-pandas-on-our-campus-can-we-coexist/")
+                            .explanation("This is the article to be edited")
+                            .email("binouye@ucsb.edu")
+                            .dateAdded(ldt1)
+                            .build();
+
+            String requestBody = mapper.writeValueAsString(ucsbEditedArticles);
+
+            when(articlesRepository.findById(eq(67L))).thenReturn(Optional.empty());
+
+            // act
+            MvcResult response = mockMvc.perform(
+                            put("/api/articles?id=67")
+                                            .contentType(MediaType.APPLICATION_JSON)
+                                            .characterEncoding("utf-8")
+                                            .content(requestBody)
+                                            .with(csrf()))
+                            .andExpect(status().isNotFound()).andReturn();
+
+            // assert
+            verify(articlesRepository, times(1)).findById(67L);
+            Map<String, Object> json = responseToJson(response);
+            assertEquals("Articles with id 67 not found", json.get("message"));
+
+    }
 }
