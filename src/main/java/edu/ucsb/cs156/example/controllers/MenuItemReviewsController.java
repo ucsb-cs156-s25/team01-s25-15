@@ -35,12 +35,12 @@ import java.time.ZonedDateTime;
  * This is a REST controller for MenuItemReviews
  */
 
- @Tag(name = "MenuItemReviews")
- @RequestMapping("/api/MenuItemReviews")
- @RestController
- @Slf4j
+@Tag(name = "MenuItemReviews")
+@RequestMapping("/api/MenuItemReviews")
+@RestController
+@Slf4j
 
-public class MenuItemReviewsController extends ApiController{
+public class MenuItemReviewsController extends ApiController {
 
     @Autowired
     MenuItemsReviewRepository menuItemsReviewRepository;
@@ -50,7 +50,7 @@ public class MenuItemReviewsController extends ApiController{
      * 
      * @return an iterable of MenuItemReviews
      */
-    @Operation(summary= "List all menuitemreviews")
+    @Operation(summary = "List all menuitemreviews")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
     public Iterable<MenuItemReview> allMenuItemReviews() {
@@ -61,22 +61,22 @@ public class MenuItemReviewsController extends ApiController{
     /**
      * Create a new date
      * 
-     * @param itemId  id of item reviewed
-     * @param reviewerEmail          email of reviewer
-     * @param stars number of stars given for item
-     * @param dateReviewed date item was reviewed
-     * @param comments additional comments
+     * @param itemId        id of item reviewed
+     * @param reviewerEmail email of reviewer
+     * @param stars         number of stars given for item
+     * @param dateReviewed  date item was reviewed
+     * @param comments      additional comments
      * @return the saved MenuItemReview
      */
-    @Operation(summary= "Create a new MenuItemReview")
+    @Operation(summary = "Create a new MenuItemReview")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
     public MenuItemReview postMenuItemReview(
-            @Parameter(name="itemId") @RequestParam Long itemId,
-            @Parameter(name="reviewerEmail") @RequestParam String reviewerEmail,
-            @Parameter(name="stars") @RequestParam int stars,
-            @Parameter(name="dateReviewed") @RequestParam("dateReviewed") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateReviewed,
-            @Parameter(name="comments") @RequestParam String comments)
+            @Parameter(name = "itemId") @RequestParam Long itemId,
+            @Parameter(name = "reviewerEmail") @RequestParam String reviewerEmail,
+            @Parameter(name = "stars") @RequestParam int stars,
+            @Parameter(name = "dateReviewed") @RequestParam("dateReviewed") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateReviewed,
+            @Parameter(name = "comments") @RequestParam String comments)
             throws JsonProcessingException {
 
         // For an explanation of @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -94,6 +94,23 @@ public class MenuItemReviewsController extends ApiController{
         MenuItemReview savedMenuItemReview = menuItemsReviewRepository.save(menuItemReview);
 
         return savedMenuItemReview;
+    }
+
+    /**
+     * Get a single menuitemreview by id
+     * 
+     * @param id the id of the menuitemreview
+     * @return a MenuItemReview
+     */
+    @Operation(summary= "Get a single menuitemreview")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public MenuItemReview getById(
+            @Parameter(name="id") @RequestParam Long id) {
+        MenuItemReview menuItemReview = menuItemsReviewRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(MenuItemReview.class, id));
+
+        return menuItemReview;
     }
 
 }
