@@ -152,7 +152,7 @@ public class ArticlesControllerTests extends ControllerTestCase {
                             .title("bi - test02: Sports")
                             .url("https://dailynexus.com/2025-04-20/sports-opinion-softball-as-a-sport-in-hong-kong/")
                             .explanation("This is the second post added to the test")
-                            .email("jthampiratwong@ucsb.edu")
+                            .email("binouye@ucsb.edu")
                             .dateAdded(ldt2)
                             .build();
 
@@ -266,7 +266,7 @@ public class ArticlesControllerTests extends ControllerTestCase {
                             .title("Edit test01: Old Article = Zero-waste")
                             .url("https://dailynexus.com/2025-04-24/zero-waste-festival-encourages-sustainability-with-music-crafts-thrifting/")
                             .explanation("This is the article to be edited")
-                            .email("binouye@ucsb.edu")
+                            .email("jthampiratwong@ucsb.edu")
                             .dateAdded(ldt1)
                             .build();
 
