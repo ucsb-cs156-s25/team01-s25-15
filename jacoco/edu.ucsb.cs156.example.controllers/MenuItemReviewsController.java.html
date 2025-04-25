@@ -35,12 +35,12 @@ import java.time.ZonedDateTime;
  * This is a REST controller for MenuItemReviews
  */
 
- @Tag(name = &quot;MenuItemReviews&quot;)
- @RequestMapping(&quot;/api/MenuItemReviews&quot;)
- @RestController
-<span class="fc" id="L41"> @Slf4j</span>
+@Tag(name = &quot;MenuItemReviews&quot;)
+@RequestMapping(&quot;/api/MenuItemReviews&quot;)
+@RestController
+<span class="fc" id="L41">@Slf4j</span>
 
-<span class="fc" id="L43">public class MenuItemReviewsController extends ApiController{</span>
+<span class="fc" id="L43">public class MenuItemReviewsController extends ApiController {</span>
 
     @Autowired
     MenuItemsReviewRepository menuItemsReviewRepository;
@@ -50,7 +50,7 @@ import java.time.ZonedDateTime;
      * 
      * @return an iterable of MenuItemReviews
      */
-    @Operation(summary= &quot;List all menuitemreviews&quot;)
+    @Operation(summary = &quot;List all menuitemreviews&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
     @GetMapping(&quot;/all&quot;)
     public Iterable&lt;MenuItemReview&gt; allMenuItemReviews() {
@@ -61,22 +61,22 @@ import java.time.ZonedDateTime;
     /**
      * Create a new date
      * 
-     * @param itemId  id of item reviewed
-     * @param reviewerEmail          email of reviewer
-     * @param stars number of stars given for item
-     * @param dateReviewed date item was reviewed
-     * @param comments additional comments
+     * @param itemId        id of item reviewed
+     * @param reviewerEmail email of reviewer
+     * @param stars         number of stars given for item
+     * @param dateReviewed  date item was reviewed
+     * @param comments      additional comments
      * @return the saved MenuItemReview
      */
-    @Operation(summary= &quot;Create a new MenuItemReview&quot;)
+    @Operation(summary = &quot;Create a new MenuItemReview&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @PostMapping(&quot;/post&quot;)
     public MenuItemReview postMenuItemReview(
-            @Parameter(name=&quot;itemId&quot;) @RequestParam Long itemId,
-            @Parameter(name=&quot;reviewerEmail&quot;) @RequestParam String reviewerEmail,
-            @Parameter(name=&quot;stars&quot;) @RequestParam int stars,
-            @Parameter(name=&quot;dateReviewed&quot;) @RequestParam(&quot;dateReviewed&quot;) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateReviewed,
-            @Parameter(name=&quot;comments&quot;) @RequestParam String comments)
+            @Parameter(name = &quot;itemId&quot;) @RequestParam Long itemId,
+            @Parameter(name = &quot;reviewerEmail&quot;) @RequestParam String reviewerEmail,
+            @Parameter(name = &quot;stars&quot;) @RequestParam int stars,
+            @Parameter(name = &quot;dateReviewed&quot;) @RequestParam(&quot;dateReviewed&quot;) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateReviewed,
+            @Parameter(name = &quot;comments&quot;) @RequestParam String comments)
             throws JsonProcessingException {
 
         // For an explanation of @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -94,6 +94,23 @@ import java.time.ZonedDateTime;
 <span class="fc" id="L94">        MenuItemReview savedMenuItemReview = menuItemsReviewRepository.save(menuItemReview);</span>
 
 <span class="fc" id="L96">        return savedMenuItemReview;</span>
+    }
+
+    /**
+     * Get a single menuitemreview by id
+     * 
+     * @param id the id of the menuitemreview
+     * @return a MenuItemReview
+     */
+    @Operation(summary= &quot;Get a single menuitemreview&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
+    @GetMapping(&quot;&quot;)
+    public MenuItemReview getById(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id) {
+<span class="fc" id="L110">        MenuItemReview menuItemReview = menuItemsReviewRepository.findById(id)</span>
+<span class="fc" id="L111">                .orElseThrow(() -&gt; new EntityNotFoundException(MenuItemReview.class, id));</span>
+
+<span class="fc" id="L113">        return menuItemReview;</span>
     }
 
 }
