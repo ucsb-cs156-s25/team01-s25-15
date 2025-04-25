@@ -126,31 +126,31 @@ public class ArticlesController extends ApiController {
         return genericMessage("Articles with id %s deleted".formatted(id));
     }
 
-    // /**
-    //  * Update a single date
-    //  * 
-    //  * @param id       id of the date to update
-    //  * @param incoming the new articles entry
-    //  * @return the updated articles object
-    //  */
-    // @Operation(summary= "Update a single articles entry")
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
-    // @PutMapping("")
-    // public Articles updateArticles(
-    //         @Parameter(name="id") @RequestParam Long id,
-    //         @RequestBody @Valid Articles incoming) {
+    /**
+     * Update a single date
+     * 
+     * @param id       id of the date to update
+     * @param incoming the new articles entry
+     * @return the updated articles object
+     */
+    @Operation(summary= "Update a single articles entry")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("")
+    public Articles updateArticles(
+            @Parameter(name="id") @RequestParam Long id,
+            @RequestBody @Valid Articles incoming) {
 
-    //     Articles articles = articlesRepository.findById(id)
-    //             .orElseThrow(() -> new EntityNotFoundException(Articles.class, id));
+        Articles articles = articlesRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Articles.class, id));
 
-    //     articles.setTitle(incoming.getTitle());
-    //     articles.setUrl(incoming.getUrl());
-    //     articles.setExplanation(incoming.getExplanation());
-    //     articles.setEmail(incoming.getEmail());
-    //     articles.setDateAdded(incoming.getDateAdded());
+        articles.setTitle(incoming.getTitle());
+        articles.setUrl(incoming.getUrl());
+        articles.setExplanation(incoming.getExplanation());
+        articles.setEmail(incoming.getEmail());
+        articles.setDateAdded(incoming.getDateAdded());
 
-    //     articlesRepository.save(articles);
+        articlesRepository.save(articles);
 
-    //     return articles;
-    // }
+        return articles;
+    }
 }
