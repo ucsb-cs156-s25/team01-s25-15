@@ -126,32 +126,32 @@ import java.time.LocalDateTime;
 <span class="fc" id="L126">        return genericMessage(&quot;Articles with id %s deleted&quot;.formatted(id));</span>
     }
 
-    // /**
-    //  * Update a single date
-    //  * 
-    //  * @param id       id of the date to update
-    //  * @param incoming the new articles entry
-    //  * @return the updated articles object
-    //  */
-    // @Operation(summary= &quot;Update a single articles entry&quot;)
-    // @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
-    // @PutMapping(&quot;&quot;)
-    // public Articles updateArticles(
-    //         @Parameter(name=&quot;id&quot;) @RequestParam Long id,
-    //         @RequestBody @Valid Articles incoming) {
+    /**
+     * Update a single date
+     * 
+     * @param id       id of the date to update
+     * @param incoming the new articles entry
+     * @return the updated articles object
+     */
+    @Operation(summary= &quot;Update a single articles entry&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @PutMapping(&quot;&quot;)
+    public Articles updateArticles(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id,
+            @RequestBody @Valid Articles incoming) {
 
-    //     Articles articles = articlesRepository.findById(id)
-    //             .orElseThrow(() -&gt; new EntityNotFoundException(Articles.class, id));
+<span class="fc" id="L143">        Articles articles = articlesRepository.findById(id)</span>
+<span class="fc" id="L144">                .orElseThrow(() -&gt; new EntityNotFoundException(Articles.class, id));</span>
 
-    //     articles.setTitle(incoming.getTitle());
-    //     articles.setUrl(incoming.getUrl());
-    //     articles.setExplanation(incoming.getExplanation());
-    //     articles.setEmail(incoming.getEmail());
-    //     articles.setDateAdded(incoming.getDateAdded());
+<span class="fc" id="L146">        articles.setTitle(incoming.getTitle());</span>
+<span class="fc" id="L147">        articles.setUrl(incoming.getUrl());</span>
+<span class="fc" id="L148">        articles.setExplanation(incoming.getExplanation());</span>
+<span class="fc" id="L149">        articles.setEmail(incoming.getEmail());</span>
+<span class="fc" id="L150">        articles.setDateAdded(incoming.getDateAdded());</span>
 
-    //     articlesRepository.save(articles);
+<span class="fc" id="L152">        articlesRepository.save(articles);</span>
 
-    //     return articles;
-    // }
+<span class="fc" id="L154">        return articles;</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
