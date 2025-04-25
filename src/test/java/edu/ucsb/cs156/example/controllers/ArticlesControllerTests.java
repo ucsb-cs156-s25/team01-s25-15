@@ -59,12 +59,11 @@ public class ArticlesControllerTests extends ControllerTestCase {
                             .andExpect(status().is(200)); // logged
     }
 
-    // For step 4
-    // @Test
-    // public void logged_out_users_cannot_get_by_id() throws Exception {
-    //         mockMvc.perform(get("/api/articles?id=7"))
-    //                         .andExpect(status().is(403)); // logged out users can't get by id
-    // }
+    @Test
+    public void logged_out_users_cannot_get_by_id() throws Exception {
+            mockMvc.perform(get("/api/articles?id=7"))
+                            .andExpect(status().is(403)); // logged out users can't get by id
+    }
 
     // Authorization tests for /api/articles/post
     // (Perhaps should also have these for put and delete)
@@ -83,54 +82,54 @@ public class ArticlesControllerTests extends ControllerTestCase {
     }
     // // Tests with mocks for database actions
 
-    // @WithMockUser(roles = { "USER" })
-    // @Test
-    // public void test_that_logged_in_user_can_get_by_id_when_the_id_exists() throws Exception {
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void test_that_logged_in_user_can_get_by_id_when_the_id_exists() throws Exception {
 
-    //         // arrange
-    //         LocalDateTime ldt = LocalDateTime.parse("2022-01-03T00:00:00");
+            // arrange
+            LocalDateTime ldt = LocalDateTime.parse("2022-01-03T00:00:00");
 
-            // Articles articles = Articles.builder()
-            //                 .title("bi - test01: Nexustentialism")
-            //                 .url("https://dailynexus.com/2025-04-17/bingo-your-next-professor-may-be-a-lottery-hire/")
-            //                 .explanation("This is the first post added to the test")
-            //                 .email("binouye@ucsb.edu")
-            //                 .dateAdded(ldt1)
-            //                 .build();
+            Articles articles = Articles.builder()
+                            .title("bi - test01: Nexustentialism")
+                            .url("https://dailynexus.com/2025-04-17/bingo-your-next-professor-may-be-a-lottery-hire/")
+                            .explanation("This is the first post added to the test")
+                            .email("binouye@ucsb.edu")
+                            .dateAdded(ldt)
+                            .build();
 
-            // when(articlesRepository.findById(eq(7L))).thenReturn(Optional.of(articles));
+            when(articlesRepository.findById(eq(7L))).thenReturn(Optional.of(articles));
 
-    //         // act
-    //         MvcResult response = mockMvc.perform(get("/api/articles?id=7"))
-    //                         .andExpect(status().isOk()).andReturn();
+            // act
+            MvcResult response = mockMvc.perform(get("/api/articles?id=7"))
+                            .andExpect(status().isOk()).andReturn();
 
-    //         // assert
+            // assert
 
-    //         verify(articlesRepository, times(1)).findById(eq(7L));
-    //         String expectedJson = mapper.writeValueAsString(articles);
-    //         String responseString = response.getResponse().getContentAsString();
-    //         assertEquals(expectedJson, responseString);
-    // }
+            verify(articlesRepository, times(1)).findById(eq(7L));
+            String expectedJson = mapper.writeValueAsString(articles);
+            String responseString = response.getResponse().getContentAsString();
+            assertEquals(expectedJson, responseString);
+    }
 
-    // @WithMockUser(roles = { "USER" })
-    // @Test
-    // public void test_that_logged_in_user_can_get_by_id_when_the_id_does_not_exist() throws Exception {
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void test_that_logged_in_user_can_get_by_id_when_the_id_does_not_exist() throws Exception {
 
-    //         // arrange
+            // arrange
 
-    //         when(articlesRepository.findById(eq(7L))).thenReturn(Optional.empty());
+            when(articlesRepository.findById(eq(7L))).thenReturn(Optional.empty());
 
-    //         // act
-    //         MvcResult response = mockMvc.perform(get("/api/articles?id=7"))
-    //                         .andExpect(status().isNotFound()).andReturn();
+            // act
+            MvcResult response = mockMvc.perform(get("/api/articles?id=7"))
+                            .andExpect(status().isNotFound()).andReturn();
 
-    //         // assert
+            // assert
 
-    //         verify(articlesRepository, times(1)).findById(eq(7L));
-    //         Map<String, Object> json = responseToJson(response);
-    //         assertEquals("EntityNotFoundException", json.get("type"));
-    //         assertEquals("Articles with id 7 not found", json.get("message"));
-    // }
+            verify(articlesRepository, times(1)).findById(eq(7L));
+            Map<String, Object> json = responseToJson(response);
+            assertEquals("EntityNotFoundException", json.get("type"));
+            assertEquals("Articles with id 7 not found", json.get("message"));
+    }
 
     @WithMockUser(roles = { "USER" })
     @Test

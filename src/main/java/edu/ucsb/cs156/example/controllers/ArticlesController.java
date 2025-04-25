@@ -55,6 +55,23 @@ public class ArticlesController extends ApiController {
     }
 
     /**
+     * Get a single articles by id
+     * 
+     * @param id the id of the articles instance
+     * @return a articles instance
+     */
+    @Operation(summary= "Get a single articles instance")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public Articles getById(
+            @Parameter(name="id") @RequestParam Long id) {
+        Articles articles = articlesRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Articles.class, id));
+
+        return articles;
+    }
+
+    /**
      * Create a new articles entry
      * 
      * @param title         title of the article
