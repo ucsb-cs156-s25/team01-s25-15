@@ -200,7 +200,87 @@ public class HelpRequestsControllerTests extends ControllerTestCase {
                 assertEquals("HelpRequest with id 7 not found", json.get("message"));
         }
 
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void admin_can_edit_an_existing_helprequest() throws Exception {
+                // arrange
 
+                LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
+                LocalDateTime ldt2 = LocalDateTime.parse("2023-01-03T00:00:00");
+
+                HelpRequest helprequest1 = HelpRequest.builder()
+                            .requesterEmail("email")
+                            .teamId("a")
+                            .tableOrBreakoutRoom("table")
+                            .requestTime(ldt1)
+                            .explanation("yes")
+                            .solved(true)
+                            .build();
+
+                HelpRequest helprequestEdited = HelpRequest.builder()
+                            .requesterEmail("emailA")
+                            .teamId("aB")
+                            .tableOrBreakoutRoom("tableC")
+                            .requestTime(ldt2)
+                            .explanation("no")
+                            .solved(false)
+                            .build();
+
+                String requestBody = mapper.writeValueAsString(helprequestEdited);
+
+                when(helpRequestRepository.findById(eq(67L))).thenReturn(Optional.of(helprequest1));
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                put("/api/helprequests?id=67")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .characterEncoding("utf-8")
+                                                .content(requestBody)
+                                                .with(csrf()))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+                verify(helpRequestRepository, times(1)).findById(67L);
+                verify(helpRequestRepository, times(1)).save(helprequestEdited);
+                String responseString = response.getResponse().getContentAsString();
+                assertEquals(requestBody, responseString);
+        }
+
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void admin_cannot_edit_helprequest_that_does_not_exist() throws Exception {
+                // arrange
+
+                LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
+
+                HelpRequest helprequestEdited = HelpRequest.builder()
+                            .requesterEmail("emailA")
+                            .teamId("aB")
+                            .tableOrBreakoutRoom("tableC")
+                            .requestTime(ldt1)
+                            .explanation("no")
+                            .solved(false)
+                            .build();
+
+                String requestBody = mapper.writeValueAsString(helprequestEdited);
+
+                when(helpRequestRepository.findById(eq(67L))).thenReturn(Optional.empty());
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                put("/api/helprequests?id=67")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .characterEncoding("utf-8")
+                                                .content(requestBody)
+                                                .with(csrf()))
+                                .andExpect(status().isNotFound()).andReturn();
+
+                // assert
+                verify(helpRequestRepository, times(1)).findById(67L);
+                Map<String, Object> json = responseToJson(response);
+                assertEquals("HelpRequest with id 67 not found", json.get("message"));
+
+        }
 
    
 
