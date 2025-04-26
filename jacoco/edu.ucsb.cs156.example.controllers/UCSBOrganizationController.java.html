@@ -86,6 +86,23 @@ import java.time.LocalDateTime;
     }
 
 
+    /**
+     * Get a single UCSB organization by id
+     * 
+     * @param orgCode the id of the UCSB organization
+     * @return a UCSBDOrganization
+     */
+    @Operation(summary= &quot;Get a single organization&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
+    @GetMapping(&quot;&quot;)
+    public UCSBOrganization getById(
+            @Parameter(name=&quot;orgCode&quot;) @RequestParam String orgCode) {
+<span class="fc" id="L100">        UCSBOrganization ucsbOrganization = ucsbOrganizationRepository.findById(orgCode)</span>
+<span class="fc" id="L101">                .orElseThrow(() -&gt; new EntityNotFoundException(UCSBOrganization.class, orgCode));</span>
+
+<span class="fc" id="L103">        return ucsbOrganization;</span>
+    }
+
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
