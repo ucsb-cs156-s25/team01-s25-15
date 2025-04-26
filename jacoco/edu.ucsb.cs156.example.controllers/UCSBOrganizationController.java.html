@@ -34,8 +34,8 @@ import java.time.LocalDateTime;
 @Tag(name = &quot;UCSBOrganization&quot;)
 @RequestMapping(&quot;/api/ucsborganization&quot;)
 @RestController
-<span class="nc" id="L37">@Slf4j</span>
-<span class="nc" id="L38">public class UCSBOrganizationController extends ApiController{</span>
+<span class="fc" id="L37">@Slf4j</span>
+<span class="fc" id="L38">public class UCSBOrganizationController extends ApiController{</span>
 
     @Autowired
     UCSBOrganizationRepository ucsbOrganizationRepository;
@@ -49,8 +49,8 @@ import java.time.LocalDateTime;
     @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
     @GetMapping(&quot;/all&quot;)
     public Iterable&lt;UCSBOrganization&gt; allUCSBOrganization() {
-<span class="nc" id="L52">        Iterable&lt;UCSBOrganization&gt; organizations = ucsbOrganizationRepository.findAll();</span>
-<span class="nc" id="L53">        return organizations;</span>
+<span class="fc" id="L52">        Iterable&lt;UCSBOrganization&gt; organizations = ucsbOrganizationRepository.findAll();</span>
+<span class="fc" id="L53">        return organizations;</span>
     }
 
     /**
@@ -73,18 +73,35 @@ import java.time.LocalDateTime;
             )
             {
 
-<span class="nc" id="L76">            UCSBOrganization ucsbOrganization = new UCSBOrganization();</span>
-<span class="nc" id="L77">            ucsbOrganization.setOrgCode(orgCode);</span>
-<span class="nc" id="L78">            ucsbOrganization.setOrgTranslationShort(orgTranslationShort);</span>
-<span class="nc" id="L79">            ucsbOrganization.setOrgTranslation(orgTranslation);</span>
-<span class="nc" id="L80">            ucsbOrganization.setInactive(inactive);</span>
+<span class="fc" id="L76">            UCSBOrganization ucsbOrganization = new UCSBOrganization();</span>
+<span class="fc" id="L77">            ucsbOrganization.setOrgCode(orgCode);</span>
+<span class="fc" id="L78">            ucsbOrganization.setOrgTranslationShort(orgTranslationShort);</span>
+<span class="fc" id="L79">            ucsbOrganization.setOrgTranslation(orgTranslation);</span>
+<span class="fc" id="L80">            ucsbOrganization.setInactive(inactive);</span>
 
-<span class="nc" id="L82">            UCSBOrganization savedUcsbOrganization = ucsbOrganizationRepository.save(ucsbOrganization);</span>
+<span class="fc" id="L82">            UCSBOrganization savedUcsbOrganization = ucsbOrganizationRepository.save(ucsbOrganization);</span>
 
-<span class="nc" id="L84">            return savedUcsbOrganization;</span>
+<span class="fc" id="L84">            return savedUcsbOrganization;</span>
             
     }
 
+
+    /**
+     * Get a single UCSB organization by id
+     * 
+     * @param id the id of the UCSB organization
+     * @return a UCSBDOrganization
+     */
+    @Operation(summary= &quot;Get a single organization&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
+    @GetMapping(&quot;&quot;)
+    public UCSBOrganization getById(
+            @Parameter(name=&quot;orgCode&quot;) @RequestParam String orgCode) {
+<span class="nc" id="L100">        UCSBOrganization ucsbOrganization = ucsbOrganizationRepository.findById(orgCode)</span>
+<span class="nc" id="L101">                .orElseThrow(() -&gt; new EntityNotFoundException(UCSBOrganization.class, orgCode));</span>
+
+<span class="nc" id="L103">        return ucsbOrganization;</span>
+    }
 
 
 }
