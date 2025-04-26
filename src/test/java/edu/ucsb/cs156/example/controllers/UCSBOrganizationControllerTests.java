@@ -94,7 +94,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                         .orgCode("SKY")
                         .orgTranslationShort("SKYDIVING CLUB")
                         .orgTranslation("SKYDIVING CLUB AT UCSB")
-                        .inactive(false)
+                        .inactive(true)
                         .build();
 
                 ArrayList<UCSBOrganization> expectedUCSBOrganization = new ArrayList<>();
@@ -123,14 +123,14 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                         .orgCode("ZPR")
                         .orgTranslationShort("ZETA PHI RHO")
                         .orgTranslation("ZETA PHI RHO")
-                        .inactive(false)
+                        .inactive(true)
                         .build();
 
                 when(ucsbOrganizationRepository.save(eq(ucsbOrganization1))).thenReturn(ucsbOrganization1);
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/ucsborganization/post?orgCode=ZPR&orgTranslationShort=ZETA PHI RHO&orgTranslation=ZETA PHI RHO&inactive=false")
+                                post("/api/ucsborganization/post?orgCode=ZPR&orgTranslationShort=ZETA PHI RHO&orgTranslation=ZETA PHI RHO&inactive=true")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -139,5 +139,8 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 String expectedJson = mapper.writeValueAsString(ucsbOrganization1);
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(expectedJson, responseString);
+
+                UCSBOrganization returned = mapper.readValue(responseString, UCSBOrganization.class);
+                assertEquals(true, returned.isInactive());
         }
 }
