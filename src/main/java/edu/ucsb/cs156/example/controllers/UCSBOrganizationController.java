@@ -89,7 +89,7 @@ public class UCSBOrganizationController extends ApiController{
     /**
      * Get a single UCSB organization by id
      * 
-     * @param id the id of the UCSB organization
+     * @param orgCode the id of the UCSB organization
      * @return a UCSBDOrganization
      */
     @Operation(summary= "Get a single organization")
