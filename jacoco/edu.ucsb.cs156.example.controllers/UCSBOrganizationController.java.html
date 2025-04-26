@@ -104,5 +104,32 @@ import java.time.LocalDateTime;
     }
 
 
+    /**
+     * Update a single organization
+     * 
+     * @param orgCode       id of the organization to update
+     * @param incoming the new organization
+     * @return the updated organization object
+     */
+    @Operation(summary= &quot;Update a single organization&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @PutMapping(&quot;&quot;)
+    public UCSBOrganization updateUCSBOrganization(
+            @Parameter(name=&quot;orgCode&quot;) @RequestParam String orgCode,
+            @RequestBody @Valid UCSBOrganization incoming) {
+
+<span class="fc" id="L121">        UCSBOrganization ucsbOrganization = ucsbOrganizationRepository.findById(orgCode)</span>
+<span class="fc" id="L122">                .orElseThrow(() -&gt; new EntityNotFoundException(UCSBOrganization.class, orgCode));</span>
+
+<span class="fc" id="L124">        ucsbOrganization.setOrgTranslationShort(incoming.getOrgTranslationShort());</span>
+<span class="fc" id="L125">        ucsbOrganization.setOrgTranslation(incoming.getOrgTranslation());</span>
+<span class="fc" id="L126">        ucsbOrganization.setInactive(incoming.getInactive());</span>
+
+<span class="fc" id="L128">        ucsbOrganizationRepository.save(ucsbOrganization);</span>
+
+<span class="fc" id="L130">        return ucsbOrganization;</span>
+    }
+
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
