@@ -131,5 +131,24 @@ import java.time.LocalDateTime;
     }
 
 
+    /**
+     * Delete a UCSBOrganization
+     * 
+     * @param orgCode the id of the organization to delete
+     * @return a message indicating the organization was deleted
+     */
+    @Operation(summary= &quot;Delete a UCSBOrganization&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @DeleteMapping(&quot;&quot;)
+    public Object deleteUCSBOrganization(
+            @Parameter(name=&quot;orgCode&quot;) @RequestParam String orgCode) {
+<span class="fc" id="L145">        UCSBOrganization ucsbOrganization = ucsbOrganizationRepository.findById(orgCode)</span>
+<span class="fc" id="L146">                .orElseThrow(() -&gt; new EntityNotFoundException(UCSBOrganization.class, orgCode));</span>
+
+<span class="fc" id="L148">        ucsbOrganizationRepository.delete(ucsbOrganization);</span>
+<span class="fc" id="L149">        return genericMessage(&quot;UCSBOrganization with id %s deleted&quot;.formatted(orgCode));</span>
+    }
+
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
