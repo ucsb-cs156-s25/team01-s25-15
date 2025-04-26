@@ -32,9 +32,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-
 @WebMvcTest(controllers = UCSBOrganizationController.class)
 @Import(TestConfig.class)
 public class UCSBOrganizationControllerTests extends ControllerTestCase {
@@ -79,7 +76,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
 
         @WithMockUser(roles = { "USER" })
         @Test
-        public void logged_in_user_can_get_all_ucsbdates() throws Exception {
+        public void logged_in_user_can_get_all_ucsborganization() throws Exception {
 
                 // arrange
 
@@ -123,7 +120,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                         .orgCode("ZPR")
                         .orgTranslationShort("ZETA PHI RHO")
                         .orgTranslation("ZETA PHI RHO")
-                        .inactive(false)
+                        .inactive(true)
                         .build();
 
                 when(ucsbOrganizationRepository.save(eq(ucsbOrganization1))).thenReturn(ucsbOrganization1);
