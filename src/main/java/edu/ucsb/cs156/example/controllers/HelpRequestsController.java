@@ -144,5 +144,23 @@ public class HelpRequestsController extends ApiController {
         return helprequest;
     }
 
+    /**
+     * Delete a HelpRequest
+     * 
+     * @param id the id of the helprequest to delete
+     * @return a message indicating the helprequest was deleted
+     */
+    @Operation(summary= "Delete a HelpRequest")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("")
+    public Object deleteHelpRequest(
+            @Parameter(name="id") @RequestParam Long id) {
+        HelpRequest helprequest = helpRequestRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(HelpRequest.class, id));
+
+        helpRequestRepository.delete(helprequest);
+        return genericMessage("HelpRequest with id %s deleted".formatted(id));
+    }
+
 
 }
